@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA BANK | Финансы Будущего</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================
+   ПЕРЕМЕННЫЕ (CSS Variables)
+   ======================== */
+        
+         :root {
+            --primary: #2563eb;
+            /* Синий */
+            --primary-dark: #1e40af;
+            --accent: #7c3aed;
+            /* Фиолетовый */
+            --success: #10b981;
+            /* Зеленый */
+            --text-dark: #1f2937;
+            --bg-light: #f3f4f6;
+            /* Сложный градиент для текста и фонов */
+            --gradient-brand: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-card-1: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --gradient-card-2: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            /* Dark Mode Defaults */
+            --bg-dark: #111827;
+            --text-light: #f3f4f6;
+            --card-bg-dark: #1f2937;
+        }
+        
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        
+        body.dark-mode .navbar {
+            background: rgba(17, 24, 39, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        body.dark-mode .navbar-brand span {
+            color: #60a5fa !important;
+        }
+        
+        body.dark-mode .nav-link {
+            color: #e5e7eb;
+        }
+        
+        body.dark-mode .hero-section {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(#3b82f6 0.5px, transparent 0.5px), radial-gradient(#3b82f6 0.5px, var(--bg-dark) 0.5px);
+        }
+        
+        body.dark-mode .hero-wave path {
+            fill: var(--bg-dark);
+        }
+        
+        body.dark-mode .feature-card,
+        body.dark-mode .exchange-card {
+            background-color: var(--card-bg-dark);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        
+        body.dark-mode .text-muted {
+            color: #9ca3af !important;
+        }
+        
+        body.dark-mode #exchange {
+            background-color: #0d1117;
+        }
+        
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: white;
+        }
+        
+        body.dark-mode .btn-light {
+            background-color: #374151;
+            color: white;
+            border-color: #4b5563;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        /* Навигация */
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            /* Эффект матового стекла */
+            /* Эффект матового стекла */
+            transition: all 0.3s;
+            padding: 15px 0;
+        }
+        
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            padding: 10px 0 !important;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+        }
+        
+        body.dark-mode .navbar-scrolled {
+            background: rgba(17, 24, 39, 0.98) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bg-soft-blue {
+            background-color: #dbeafe;
+        }
+        
+        .bg-soft-purple {
+            background-color: #ede9fe;
+        }
+        
+        .bg-soft-green {
+            background-color: #d1fae5;
+        }
+        
+        .text-purple {
+            color: var(--accent);
+        }
+        /* ========================
+   HERO SECTION (Фон + Градиент)
+   ======================== */
+        
+        .hero-section {
+            background-color: #eff6ff;
+            /* Множественные фоны: сетка + градиент */
+            background-image: radial-gradient(#2563eb 0.5px, transparent 0.5px), radial-gradient(#2563eb 0.5px, #eff6ff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            padding-top: 120px;
+            padding-bottom: 150px;
+            /* Increased to avoid overlap */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .hero-wave {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            pointer-events: none;
+            /* Allows clicks to pass through */
+            z-index: 1;
+        }
+        
+        .gradient-text {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            /* Префикс */
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        /* ========================
+   БАНКОВСКИЕ КАРТЫ (CSS Art & Transform)
+   ======================== */
+        
+        .cards-stack {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            perspective: 1000px;
+            /* Для 3D эффекта */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .bank-card {
+            width: 340px;
+            height: 215px;
+            border-radius: 20px;
+            position: absolute;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        /* Задняя карта */
+        
+        .card-secondary {
+            background: var(--gradient-card-1);
+            transform: rotate(-15deg) translate(-20px, -20px) scale(0.9);
+            z-index: 1;
+            opacity: 0.8;
+        }
+        /* Передняя карта */
+        
+        .card-primary {
+            background: var(--gradient-card-2);
+            transform: rotate(5deg) translate(20px, 20px);
+            z-index: 2;
+            overflow: hidden;
+            /* Чтобы блики не вылезали */
+        }
+        /* Эффект стекла на карте (Glassmorphism) */
+        
+        .card-glass-effect {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+            transform: rotate(30deg);
+        }
+        /* Анимация при наведении на блок карт */
+        
+        .cards-stack:hover .card-primary {
+            transform: rotate(0deg) translate(0, 0) scale(1.05);
+        }
+        
+        .cards-stack:hover .card-secondary {
+            transform: rotate(-5deg) translate(-40px, 10px) scale(0.95);
+        }
+        /* Элементы карты */
+        
+        .card-chip {
+            width: 45px;
+            height: 35px;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .card-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-holder,
+        .card-expires {
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-right: 20px;
+        }
+        
+        .card-holder p,
+        .card-expires p {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 0;
+            opacity: 1;
+        }
+        
+        .card-logo {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 1.5rem;
+        }
+        /* Плавающие бейджи (Анимация keyframes) */
+        
+        .floating-badge {
+            position: absolute;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: float 4s ease-in-out infinite;
+            z-index: 3;
+        }
+        
+        body.dark-mode .floating-badge {
+            background-color: var(--card-bg-dark);
+            color: var(--text-light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .badge-1 {
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+        
+        .badge-2 {
+            bottom: 20%;
+            left: 0%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        /* ========================
+   ОБЩИЕ СТИЛИ И АДАПТИВ
+   ======================== */
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            transition: 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            border-color: transparent;
+        }
+        
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        /* Анимации появления (Scroll Reveal) */
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Custom Toast */
+        
+        .toast-custom {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: none;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        body.dark-mode .toast-custom {
+            background: var(--card-bg-dark);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .bg-light-gray {
+            background-color: #f9fafb;
+        }
+        /* Адаптив: Скрываем 3D карты на телефонах */
+        
+        @media (max-width: 991px) {
+            /* Настраиваем карты, чтобы они были меньше и не мешали */
+            .cards-stack {
+                height: 300px;
+                margin-top: 50px;
+            }
+            .bank-card {
+                width: 280px;
+                height: 180px;
+            }
+            /* Выравниваем текст по центру */
+            .hero-section {
+                text-align: center;
+            }
+            /* === ГЛАВНОЕ ИСПРАВЛЕНИЕ === */
+            .hero-text {
+                position: relative;
+                /* Обязательно для z-index */
+                z-index: 10;
+                /* Поднимаем текст и кнопки НАД волной, чтобы они нажимались */
+            }
+            /* Центрируем кнопки (и по горизонтали, и по вертикали) */
+            .hero-text .d-flex {
+                justify-content: center;
+                align-items: center;
+            }
+            /* Центрируем блок статистики (5M+, 0%, 24/7) */
+            .trust-block {
+                justify-content: center;
+            }
+        }
+        /* ========================
+   MOBILE APP SHOWCASE
+   ======================== */
+        
+        .phone-mockup {
+            width: 280px;
+            height: 550px;
+            background-color: #1f2937;
+            border: 12px solid #374151;
+            border-radius: 40px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 2;
+            overflow: hidden;
+            /* Clean placeholder look */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 3rem;
+        }
+        
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #374151;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        .glow-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            z-index: 1;
+        }
+        /* Dark Mode Overrides */
+        
+        body.dark-mode #mobile-app {
+            background-color: var(--bg-dark) !important;
+        }
+        
+        body.dark-mode .phone-mockup {
+            border-color: #4b5563;
+            background-color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <span class="text-primary"><i class="fas fa-cube"></i> NOVA</span>BANK
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#hero">Частным лицам</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cards">Карты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#exchange">Курсы валют</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#business">Бизнесу</a></li>
+                </ul>
+                <div class="ms-3 d-flex gap-2">
+                    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">Войти</button>
+                    <button class="btn btn-primary btn-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#orderCardModal">Открыть счет</button>
+                    <button class="btn btn-link nav-link" id="theme-toggle" title="Переключить тему">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero-section">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-6 hero-text reveal">
+                    <div class="badge bg-soft-blue text-primary mb-3">Банкинг 2.0</div>
+                    <h1 class="display-3 fw-bolder mb-3">Ваши деньги <br> работают на <span class="gradient-text">Вас</span></h1>
+                    <p class="lead text-muted mb-4">Откройте мультивалютный счет за 2 минуты. Кэшбэк до 30%, переводы без комиссии и премиальный консьерж-сервис.</p>
+
+                    <div class="d-flex flex-column flex-md-row gap-3">
+                        <button class="btn btn-primary btn-lg rounded-3 shadow-lg" data-bs-toggle="modal" data-bs-target="#orderCardModal">Получить карту</button>
+                        <button class="btn btn-light btn-lg rounded-3"><i class="fab fa-apple"></i> App Store</button>
+                    </div>
+
+                    <div class="mt-5 d-flex gap-4 trust-block">
+                        <div>
+                            <h4 class="fw-bold m-0">5M+</h4>
+                            <small class="text-muted">Клиентов</small>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold m-0">0%</h4>
+                            <small class="text-muted">Комиссия</small>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold m-0">24/7</h4>
+                            <small class="text-muted">Поддержка</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 position-relative d-none d-lg-block reveal">
+                    <div class="cards-stack">
+                        <div class="bank-card card-secondary">
+                            <div class="card-chip"></div>
+                            <div class="card-number">**** **** **** 4421</div>
+                            <div class="card-name">NOVA PLATINUM</div>
+                            <div class="card-logo">VISA</div>
+                        </div>
+                        <div class="bank-card card-primary">
+                            <div class="card-glass-effect"></div>
+                            <div class="card-chip"></div>
+                            <div class="card-wifi"><i class="fas fa-wifi"></i></div>
+                            <div class="card-number">4200 1234 5678 9010</div>
+                            <div class="card-holder">
+                                <span>Card Holder</span>
+                                <p>ALEXANDER KIM</p>
+                            </div>
+                            <div class="card-expires">
+                                <span>Expires</span>
+                                <p>12/28</p>
+                            </div>
+                            <div class="card-logo">mastercard</div>
+                        </div>
+                    </div>
+
+                    <div class="floating-badge badge-1">
+                        <i class="fas fa-check-circle text-success"></i> Перевод отправлен
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <i class="fas fa-arrow-up text-primary"></i> + 550 000 ₸
+                    </div>
+                </div>
+            </div>
+        </div>
+        <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#ffffff" fill-opacity="1"
+                d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+            </path>
+        </svg>
+    </header>
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100 reveal">
+                        <div class="icon-box bg-soft-blue mb-4">
+                            <i class="fas fa-shield-alt text-primary"></i>
+                        </div>
+                        <h3>Защита 360°</h3>
+                        <p class="text-muted">Мы используем технологии AI для мониторинга транзакций и защиты ваших средств.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100">
+                        <div class="icon-box bg-soft-purple mb-4">
+                            <i class="fas fa-bolt text-purple"></i>
+                        </div>
+                        <h3>Мгновенные переводы</h3>
+                        <p class="text-muted">Отправляйте деньги в любую точку мира без скрытых комиссий и ожиданий.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4 h-100">
+                        <div class="icon-box bg-soft-green mb-4">
+                            <i class="fas fa-chart-line text-success"></i>
+                        </div>
+                        <h3>Инвестиции</h3>
+                        <p class="text-muted">Доступ к акциям мировых компаний прямо из приложения. Начните с $10.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="exchange" class="py-5 bg-light-gray">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 reveal">
+                    <h2 class="fw-bold mb-4">Обмен валют <br>по биржевому курсу</h2>
+                    <p class="text-muted">Мы обновляем курсы каждую секунду. Меняйте деньги выгодно прямо сейчас.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Без комиссии банка</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Фиксация курса на 2 минуты</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Покупка металлов и крипто</li>
+                    </ul>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-6">
+                    <div class="exchange-card bg-white p-4 shadow-sm rounded-4 reveal">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Я меняю</span>
+                            <span class="fw-bold text-primary">Текущий курс: <span id="rate-display">495.50</span> ₸
+                            </span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="number" id="amount-input" class="form-control form-control-lg fw-bold" value="100">
+                            <select class="form-select form-select-lg" style="max-width: 100px;">
+                                <option>USD</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-center my-3">
+                            <button class="btn btn-light rounded-circle p-3 swap-btn">
+                                <i class="fas fa-arrow-down text-muted"></i>
+                            </button>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Я получаю</span>
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <input type="text" id="amount-output" class="form-control form-control-lg fw-bold bg-light" readonly>
+                            <span class="input-group-text fw-bold">KZT</span>
+                        </div>
+
+                        <button onclick="calculateExchange()" class="btn btn-primary w-100 py-3 rounded-3 fw-bold">Обменять сейчас</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mobile-app" class="py-5 bg-light-gray reveal">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Everything you need in one app</h2>
+                    <p class="lead text-muted mb-4">Track expenses, manage subscriptions, and invest with one tap.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 fs-5"><i class="fas fa-check-circle text-success me-2"></i> Instant Notifications
+                        </li>
+                        <li class="mb-3 fs-5"><i class="fas fa-check-circle text-success me-2"></i> FaceID Security</li>
+                        <li class="mb-3 fs-5"><i class="fas fa-check-circle text-success me-2"></i> Spending Analytics
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary btn-lg rounded-3 mt-4">Download Now</button>
+                </div>
+                <div class="col-lg-6 text-center position-relative">
+                    <div class="glow-circle"></div>
+                    <div class="phone-mockup">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h4 class="fw-bold mb-3"><i class="fas fa-cube"></i> NOVABANK</h4>
+                    <p class="text-white-50">Лицензия Агентства Республики Казахстан по регулированию финансового рынка №1.2.34/56 от 20.02.2025</p>
+                </div>
+                <div class="col-md-2 col-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-3">Продукты</h6>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#" class="text-reset text-decoration-none">Кредиты</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Депозиты</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Карты</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-3">Компания</h6>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#" class="text-reset text-decoration-none">О нас</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Карьера</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Пресс-центр</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-3">Контакты</h6>
+                    <p class="mb-1">Call center: <span class="fw-bold">9999</span></p>
+                    <p class="mb-1">Email: support@novabank.kz</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Вход в NovaBank</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Номер телефона</label>
+                            <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Пароль</label>
+                            <input type="password" class="form-control" placeholder="••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="orderCardModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Оформление карты</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info small">
+                        Курьер доставит карту бесплатно в течение 24 часов.
+                    </div>
+                    <form id="orderForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Ваше Имя</label>
+                            <input type="text" class="form-control" placeholder="Как в удостоверении" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Телефон для связи</label>
+                            <input type="tel" class="form-control" placeholder="+7 (777) 000-00-00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Тип карты</label>
+                            <select class="form-select">
+                                <option>Nova Platinum (Visa)</option>
+                                <option>Nova Black (Mastercard)</option>
+                                <option>Виртуальная карта</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Заказать карту</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" style="z-index: 1055;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- 0. ИНИЦИАЛИЗАЦИЯ (Utilities) ---
+
+        // Custom Toast Notification
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return; // Guard clause
+
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0 show toast-custom mb-2`;
+            toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message.replace(/\n/g, '<br>')}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+            container.appendChild(toast);
+
+            // Auto remove after 3s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Dark Mode Logic ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (themeToggle) themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                });
+            }
+
+            // --- Scroll Reveal (Intersection Observer) ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // --- VanillaTilt (Simplified Custom Implementation) ---
+            const cards = document.querySelectorAll('.cards-stack');
+            cards.forEach(cardWrapper => {
+                cardWrapper.addEventListener('mousemove', (e) => {
+                    const cardPrimary = cardWrapper.querySelector('.card-primary');
+                    const cardSecondary = cardWrapper.querySelector('.card-secondary');
+
+                    if (!cardPrimary || !cardSecondary) return;
+
+                    const rect = cardWrapper.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    cardPrimary.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                    cardSecondary.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(0.95) translate(-40px, 10px)`;
+                });
+
+                cardWrapper.addEventListener('mouseleave', () => {
+                    const cardPrimary = cardWrapper.querySelector('.card-primary');
+                    const cardSecondary = cardWrapper.querySelector('.card-secondary');
+
+                    if (!cardPrimary || !cardSecondary) return;
+
+                    cardPrimary.style.transform = '';
+                    cardSecondary.style.transform = '';
+                });
+            });
+
+            // --- 1. КОНВЕРТЕР ВАЛЮТ ---
+            const amountInput = document.getElementById('amount-input');
+            const amountOutput = document.getElementById('amount-output');
+            const CURRENT_RATE = 495.50; // Курс доллара
+
+            function calculate() {
+                let val = parseFloat(amountInput.value);
+                if (val < 0 || isNaN(val)) val = 0;
+
+                let result = val * CURRENT_RATE;
+                // Красивый вывод с пробелами (49 550)
+                amountOutput.value = result.toLocaleString('ru-RU', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            if (amountInput) {
+                amountInput.addEventListener('input', calculate);
+                calculate(); // Посчитать при старте
+            }
+
+            // Кнопка "Обменять сейчас"
+            window.calculateExchange = () => {
+                const btn = document.querySelector('.btn-primary.w-100');
+                const oldText = btn.innerText;
+
+                // Имитация загрузки
+                btn.innerText = 'Обработка...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    showToast(`✅ Операция успешна!\nВы купили ${amountInput.value} USD.`);
+                    btn.innerText = oldText;
+                    btn.disabled = false;
+                }, 1500);
+            };
+
+            // --- 2. ОБРАБОТКА ФОРМЫ ВХОДА ---
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Остановить перезагрузку страницы
+
+                    // Находим кнопку внутри формы
+                    const btn = loginForm.querySelector('button');
+                    const originalText = btn.innerText;
+
+                    btn.innerText = 'Входим...';
+
+                    setTimeout(() => {
+                        showToast('👋 Добро пожаловать, Нсанов Бексултан!');
+                        // Закрыть модальное окно (используем Bootstrap API)
+                        const modalEl = document.getElementById('loginModal');
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        modal.hide();
+
+                        btn.innerText = originalText;
+                        loginForm.reset(); // Очистить поля
+                    }, 1000);
+                });
+            }
+
+            // --- 3. ОБРАБОТКА ФОРМЫ ЗАКАЗА КАРТЫ ---
+            const orderForm = document.getElementById('orderForm');
+            if (orderForm) {
+                orderForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const btn = orderForm.querySelector('button');
+                    const originalText = btn.innerText;
+
+                    btn.innerText = 'Отправка заявки...';
+
+                    setTimeout(() => {
+                        showToast('🚀 Заявка принята! Менеджер скоро свяжется с вами.');
+
+                        const modalEl = document.getElementById('orderCardModal');
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        modal.hide();
+
+                        btn.innerText = originalText;
+                        orderForm.reset();
+                    }, 1500);
+                });
+            }
+
+            // --- 4. КНОПКА APP STORE ---
+            const appBtns = document.querySelectorAll('.btn-light, .fa-apple');
+            appBtns.forEach(btn => {
+                // Проверяем, что это кнопка App Store (по иконке или тексту)
+                if (btn.innerHTML.includes('App Store') || btn.classList.contains('fa-apple')) {
+                    btn.addEventListener('click', () => {
+                        showToast('📲 Переход в App Store...', 'info');
+                    });
+                }
+            });
+
+            // --- 5. ЭФФЕКТ СКРОЛЛА МЕНЮ ---
+            const navbar = document.getElementById('mainNav');
+            if (navbar) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('navbar-scrolled');
+                    } else {
+                        navbar.classList.remove('navbar-scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
